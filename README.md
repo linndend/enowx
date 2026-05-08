@@ -1,39 +1,39 @@
 # EnowX AI
 
-Self-hosted AI proxy with 30+ models (Claude, GPT, Gemini, DeepSeek, Kimi) exposed via Cloudflare Tunnel.
+Proxy AI self-hosted dengan 30+ model (Claude, GPT, Gemini, DeepSeek, Kimi) yang di-expose lewat Cloudflare Tunnel.
 
-## Install
+## Instalasi
 
 ```bash
 wget -qO- https://raw.githubusercontent.com/linndend/enowx/main/install.sh | bash
 ```
 
-## What it does
+## Yang dilakukan script
 
-1. Updates system and installs dependencies
-2. Installs EnowX AI binary
-3. Starts proxy (`:1430`) and dashboard (`:1431`)
-4. Installs Cloudflare Tunnel
-5. Creates auto-restart tunnel service (systemd)
-6. Outputs public URLs for API and dashboard
+1. Update sistem dan install semua dependencies
+2. Install binary EnowX AI
+3. Jalankan proxy (`:1430`) dan dashboard (`:1431`)
+4. Install Cloudflare Tunnel
+5. Buat service tunnel yang auto-restart (systemd)
+6. Tampilkan URL publik untuk API dan dashboard
 
-## After install
+## Setelah install
 
-1. Open dashboard URL
-2. Set admin password
-3. Add license key
-4. Add accounts
+1. Buka URL dashboard
+2. Set password admin
+3. Tambah license key
+4. Tambah akun
 
-## Check URLs
+## Cek URL
 
-URLs change on tunnel restart (free Cloudflare Quick Tunnel).
+URL berubah tiap tunnel restart (Cloudflare Quick Tunnel gratis, tanpa domain).
 
 ```bash
 cat ~/.enowxai/api_url.txt
 cat ~/.enowxai/dash_url.txt
 ```
 
-## Service management
+## Kelola service
 
 ```bash
 sudo systemctl status enowxai-tunnel
@@ -41,7 +41,7 @@ sudo systemctl restart enowxai-tunnel
 sudo journalctl -u enowxai-tunnel -f
 ```
 
-## EnowX AI commands
+## Perintah EnowX AI
 
 ```bash
 enowxai status
@@ -53,7 +53,7 @@ enowxai stop
 enowxai start
 ```
 
-## Supported OS
+## OS yang didukung
 
 - Ubuntu / Debian
 - Arch / Manjaro
@@ -61,19 +61,19 @@ enowxai start
 - macOS
 - Termux (Android)
 
-## Models
+## Model tersedia
 
-| Tier | Models |
-|------|--------|
+| Tier | Model |
+|------|-------|
 | Standard | claude-sonnet-4.5, claude-sonnet-4, claude-haiku-4.5, deepseek-3.2 |
 | MAX | claude-opus-4.6, gpt-5.5, gemini-3.1-pro, gpt-5.4, kimi-k2.5 |
 | Canva | canva-image |
 
-## API usage
+## Contoh penggunaan API
 
 ```bash
-curl https://YOUR_API_URL/v1/chat/completions \
-  -H "Authorization: Bearer YOUR_API_KEY" \
+curl https://URL_API_KAMU/v1/chat/completions \
+  -H "Authorization: Bearer API_KEY_KAMU" \
   -H "Content-Type: application/json" \
-  -d '{"model":"claude-sonnet-4.5","messages":[{"role":"user","content":"Hello"}],"stream":true}'
+  -d '{"model":"claude-sonnet-4.5","messages":[{"role":"user","content":"Halo"}],"stream":true}'
 ```
