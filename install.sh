@@ -107,29 +107,42 @@ sudo tee "$TUNNEL_SCRIPT" >/dev/null <<'EOF'
 ENOWXAI_DIR="$HOME/.enowxai"
 mkdir -p "$ENOWXAI_DIR"
 
+start_tunnel() {
+    local port=$1
+    local label=$2
+    local logfile="/var/log/enowxai-tunnel-${label}.log"
+    local urlfile="$ENOWXAI_DIR/${label}_url.txt"
+
+    cloudflared tunnel --url "http://localhost:${port}" --no-autoupdate >> "$logfile" 2>&1 &
+    local pid=$!
+
+    for i in $(seq 1 30); do
+        sleep 2
+        local url=$(grep -o 'https://[a-z0-9-]*\.trycloudflare\.com' "$logfile" 2>/dev/null | tail -1)
+        if [[ -n "$url" ]]; then
+            echo "$url" > "$urlfile"
+            echo "[$(date)] ${label}: $url" >> "$ENOWXAI_DIR/tunnel_urls.txt"
+            break
+        fi
+    done
+    echo $pid
+}
+
 while true; do
-    pkill -f "cloudflared tunnel --url http://localhost:143" 2>/dev/null || true
+    pkill -f "cloudflared tunnel --url" 2>/dev/null || true
     sleep 1
 
-    cloudflared tunnel --url http://localhost:1430 --no-autoupdate 2>&1 | \
-        tee -a /var/log/enowxai-tunnel-api.log | \
-        grep --line-buffered -o 'https://[a-z0-9-]*\.trycloudflare\.com' | \
-        head -1 | while read url; do
-            echo "$url" > "$ENOWXAI_DIR/api_url.txt"
-            echo "[$(date)] API: $url" >> "$ENOWXAI_DIR/tunnel_urls.txt"
-        done &
-    sleep 4
+    > /var/log/enowxai-tunnel-api.log
+    > /var/log/enowxai-tunnel-dash.log
 
-    cloudflared tunnel --url http://localhost:1431 --no-autoupdate 2>&1 | \
-        tee -a /var/log/enowxai-tunnel-dash.log | \
-        grep --line-buffered -o 'https://[a-z0-9-]*\.trycloudflare\.com' | \
-        head -1 | while read url; do
-            echo "$url" > "$ENOWXAI_DIR/dash_url.txt"
-            echo "[$(date)] Dash: $url" >> "$ENOWXAI_DIR/tunnel_urls.txt"
-        done &
+    API_PID=$(start_tunnel 1430 api)
+    DASH_PID=$(start_tunnel 1431 dash)
 
-    wait -n 2>/dev/null
-    pkill -f "cloudflared tunnel --url http://localhost:143" 2>/dev/null || true
+    while kill -0 $API_PID 2>/dev/null && kill -0 $DASH_PID 2>/dev/null; do
+        sleep 10
+    done
+
+    pkill -f "cloudflared tunnel --url" 2>/dev/null || true
     sleep 5
 done
 EOF
@@ -161,7 +174,7 @@ fi
 log "Service enabled (auto-restart)"
 
 info "Waiting for URLs..."
-for i in $(seq 1 20); do
+for i in $(seq 1 30); do
     [[ -f "$ENOWXAI_DIR/api_url.txt" && -f "$ENOWXAI_DIR/dash_url.txt" ]] && break
     sleep 2
 done
