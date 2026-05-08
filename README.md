@@ -4,8 +4,14 @@ Proxy AI self-hosted dengan 30+ model (Claude, GPT, Gemini, DeepSeek, Kimi) yang
 
 ## Instalasi
 
+**Linux / macOS / Termux:**
 ```bash
 wget -qO- https://raw.githubusercontent.com/linndend/enowx/main/install.sh | bash
+```
+
+**Windows (PowerShell as Admin):**
+```powershell
+irm https://raw.githubusercontent.com/linndend/enowx/main/install.ps1 | iex
 ```
 
 ## Yang dilakukan script
@@ -68,6 +74,16 @@ enowxai start
 | Standard | claude-sonnet-4.5, claude-sonnet-4, claude-haiku-4.5, deepseek-3.2 |
 | MAX | claude-opus-4.6, gpt-5.5, gemini-3.1-pro, gpt-5.4, kimi-k2.5 |
 | Canva | canva-image |
+
+## Antigravity / Cursor / Trae
+
+Setelah install, aktifkan MITM proxy untuk intercept traffic:
+
+```bash
+enowxai mitm enable
+```
+
+Ini otomatis setup CA cert + hosts file supaya Antigravity/Cursor/Trae pakai model dari enowxai.
 
 ## Contoh penggunaan API
 
