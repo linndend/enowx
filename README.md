@@ -8,9 +8,6 @@ Proxy AI self-hosted dengan 30+ model (Claude, GPT, Gemini, DeepSeek, Kimi) yang
 ```bash
 wget -qO- https://raw.githubusercontent.com/linndend/enowx/main/install.sh | bash
 ```
-```bash
-curl -sSL https://raw.githubusercontent.com/linndend/enowx/main/install-kiro.sh | bash
-```
 
 **Windows (PowerShell as Admin):**
 ```powershell
@@ -96,3 +93,68 @@ curl https://URL_API_KAMU/v1/chat/completions \
   -H "Content-Type: application/json" \
   -d '{"model":"claude-sonnet-4.5","messages":[{"role":"user","content":"Halo"}],"stream":true}'
 ```
+
+---
+
+# Kiro Gateway
+
+Proxy multi-akun untuk Kiro API (Claude models via Amazon Q Developer). Tanpa tunnel, cukup localhost.
+
+## Instalasi
+
+```bash
+curl -sSL https://raw.githubusercontent.com/linndend/enowx/main/install-kiro.sh | bash
+```
+
+Saat install akan muncul prompt untuk isi API key sendiri, atau kosongkan untuk auto-generate.
+
+## API Key custom
+
+```bash
+# Via env var
+curl -sSL https://raw.githubusercontent.com/linndend/enowx/main/install-kiro.sh | KIRO_API_KEY=mykey bash
+```
+
+## Penggunaan
+
+| | |
+|---|---|
+| Base URL | `http://localhost:8001/v1` |
+| API Key | sesuai yang diset saat install |
+| Model | `claude-sonnet-4.5`, `claude-haiku-4.5`, dll |
+
+```bash
+curl http://localhost:8001/v1/chat/completions \
+  -H "Authorization: Bearer API_KEY_KAMU" \
+  -H "Content-Type: application/json" \
+  -d '{"model":"claude-sonnet-4.5","messages":[{"role":"user","content":"Halo"}]}'
+```
+
+## Tambah akun
+
+```bash
+bash ~/.kiro-gateway/repo/add-account.sh
+# atau langsung:
+bash ~/.kiro-gateway/repo/add-account.sh <refresh_token>
+```
+
+Script akan validasi token dulu sebelum ditambahkan, lalu auto-restart gateway.
+
+## Kelola service
+
+```bash
+sudo systemctl restart kiro-gateway
+sudo systemctl status kiro-gateway
+sudo journalctl -u kiro-gateway -f
+```
+
+## Model tersedia
+
+| Model | Keterangan |
+|-------|-----------|
+| claude-sonnet-4.5 | Balanced, recommended |
+| claude-haiku-4.5 | Cepat, ringan |
+| claude-sonnet-4 | Previous gen |
+| claude-opus-4.5 | Powerful (paid tier) |
+| deepseek-3.2 | Open source |
+| glm-5 | Open source |

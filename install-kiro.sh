@@ -19,7 +19,7 @@ header() {
 echo ""
 echo -e "  ${CYAN}${BOLD}Kiro Gateway${NC} ${DIM}— Auto Installer${NC}"
 echo -e "  ${DIM}$(printf '%.0s━' $(seq 1 50))${NC}"
-echo -e "  ${DIM}Multi account proxy for Kiro API${NC}"
+echo -e "  ${DIM}Multi-account proxy for Kiro API (Claude models)${NC}"
 echo ""
 
 if [[ -n "$1" ]]; then
@@ -27,7 +27,7 @@ if [[ -n "$1" ]]; then
 elif [[ -n "$KIRO_API_KEY" ]]; then
     CUSTOM_API_KEY="$KIRO_API_KEY"
 else
-    echo -e "  ${BOLD}API Key${NC} ${DIM}(isi atau kosongkan untuk generate otomatis):${NC}"
+    echo -e "  ${BOLD}API Key${NC} ${DIM}(kosongkan untuk generate otomatis):${NC}"
     read -r -p "  > " CUSTOM_API_KEY
 fi
 
