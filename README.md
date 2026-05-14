@@ -155,6 +155,7 @@ sudo journalctl -u kiro-gateway -f
 | claude-sonnet-4.5 | Balanced, recommended |
 | claude-haiku-4.5 | Cepat, ringan |
 | claude-sonnet-4 | Previous gen |
-| claude-opus-4.5 | Powerful (paid tier) |
+| claude-opus-4.6 | Powerful |
+| claude-opus-4.7 | Powerful, lama reasoning |
 | deepseek-3.2 | Open source |
 | glm-5 | Open source |
