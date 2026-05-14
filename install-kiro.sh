@@ -27,7 +27,7 @@ if [[ -n "$1" ]]; then
 elif [[ -n "$KIRO_API_KEY" ]]; then
     CUSTOM_API_KEY="$KIRO_API_KEY"
 else
-    echo -e "  ${BOLD}API Key${NC} ${DIM}(kosongkan untuk generate otomatis):${NC}"
+    echo -e "  ${BOLD}API Key${NC} ${DIM}(isi atau kosongkan untuk generate otomatis):${NC}"
     read -r -p "  > " CUSTOM_API_KEY
 fi
 
