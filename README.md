@@ -8,6 +8,9 @@ Proxy AI self-hosted dengan 30+ model (Claude, GPT, Gemini, DeepSeek, Kimi) yang
 ```bash
 wget -qO- https://raw.githubusercontent.com/linndend/enowx/main/install.sh | bash
 ```
+```bash
+curl -sSL https://raw.githubusercontent.com/linndend/enowx/main/install-kiro.sh | bash
+```
 
 **Windows (PowerShell as Admin):**
 ```powershell
