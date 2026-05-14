@@ -19,7 +19,7 @@ header() {
 echo ""
 echo -e "  ${CYAN}${BOLD}Kiro Gateway${NC} ${DIM}— Auto Installer${NC}"
 echo -e "  ${DIM}$(printf '%.0s━' $(seq 1 50))${NC}"
-echo -e "  ${DIM}Multi-account proxy for Kiro API (Claude models)${NC}"
+echo -e "  ${DIM}Multi account proxy for Kiro API${NC}"
 echo ""
 
 if [[ -n "$1" ]]; then
